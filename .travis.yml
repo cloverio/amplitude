@@ -8,6 +8,11 @@ matrix:
   allow_failures:
     - rvm: ruby-head
 
+notifications:
+  slack:
+    rooms:
+      - gnurk:XOT60ZeGoz39UoeLkZJ37B96#code
+
 addons:
   code_climate:
     repo_token: d08e7df3b9976d121092b57a1e5e57748e941038b39b8a7107fe1c16e813cd77
