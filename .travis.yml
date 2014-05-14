@@ -1,0 +1,15 @@
+language: ruby
+rvm:
+  - 2.0.0
+  - 2.1.1
+  - ruby-head
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+
+addons:
+  code_climate:
+    repo_token: 4211191cc0c55d0b311b42e20c15de5d450f47bbb4d812f29745eced77bc1a57
+
+script: 'bundle exec rake spec'

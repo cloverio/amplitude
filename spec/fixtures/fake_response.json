@@ -1,0 +1,27 @@
+{
+  "arguments": {
+    "torrents": [
+      {
+        "id":1,
+        "name": "ubuntu 14.04 beta 1 - trusty-desktop-i386.iso",
+        "totalSize": 991952896
+      },
+      {
+        "id":2,
+        "name": "ubuntu-14.04-desktop-amd64.iso",
+        "totalSize": 1010827264
+      },
+      {
+        "id":3,
+        "name": "Fedora-20-x86_64-DVD",
+        "totalSize": 4603249765
+      },
+      {
+        "id":4,
+        "name": "debian-7.4.0-amd64-netinst.iso",
+        "totalSize": 232783872
+      }
+    ]
+  },
+  "result": "success"
+}
