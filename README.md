@@ -19,78 +19,129 @@ Add this line to your project’s Gemfile:
 gem 'amplitude'
 ```
 
-## Configuration
+Don't forget to execute :
+
+```bash
+$ bundle
+```
+
+## Usage
+
+We need to setup `amplitude` before we can use it, Let’s do this in an initializer
+Add the following to `config/initializers/amplitude.rb`:
 
 ```ruby
 Amplitude.configure do |config|
   config.username = ENV['TRANSMISSION_USERNAME']
   config.password = ENV['TRANSMISSION_PASSWORD']
   config.url = 'http://127.0.0.1:9091/transmission/rpc' # your transmission rpc endpoint.
-  config.debug = true # will enable full http traces.
+  config.debug = true # (optional) will enable full http traces.
 end
 ```
 
-## Usage
+We’re pulling these keys out of environmental variables so as not to hardcode them.
 
-### All
-
-Retrieve all torrents.
+Now, we can retrieve all running torrents:
 
 ```ruby
 torrents = Amplitude.all
 ```
-You can specify the fields to return:
+
+__Notes:__ You can always debug requests by turning the `debug` options to `true` in configurations.
+
+By default `all` only returns `id`, `name` and `totalSize` properties.
+You can always get additional properties, here is a list of [available fields](https://trac.transmissionbt.com/browser/trunk/extras/rpc-spec.txt#L148).
 
 ```ruby
 torrents = Amplitude.all(['rateDownload', 'rateUpload'])
 ```
-They will be added to default fields: `id`, `name` and `totalSize`.
-Available fields : (https://trac.transmissionbt.com/browser/trunk/extras/rpc-spec.txt#L148)
 
-### Find
-
-Find torrents by `id`.
+Finding a specific torrent is also possible:
 
 ```ruby
 torrents = Amplitude.find(42)
 torrents = Amplitude.find(42, ['rateDownload', 'rateUpload'])
-torrents = Amplitude.find([42, 43], ['rateDownload', 'rateUpload'])
 ```
 
-### Add
+## Operations
 
-Add torrent (one by one only).
-Returns the added torrent.
+### Add a new torrent
+
+Adding a torrent using its magnet or standard url :
 
 ```ruby
-Amplitude.add('http://website.tld/file.torrent')
+Amplitude.add('http://website.tld/source.torrent')
 ```
 
-This also can be a magnet link.
-
-Otherwise, you can put base64 content of the torrent file as the second argument:
+Otherwise, you can put base64 content of the torrent file as a second argument:
 
 ```ruby
 Amplitude.add(nil, base64_content)
 ```
 
-Extra options can be set as 3rd argument. See RPC-Spec.
+Extra options can be set as a third argument. Please read the [spec](https://trac.transmissionbt.com/browser/trunk/extras/rpc-spec.txt#L362) for that.
 
-### Remove
+### Remove existing torrent
 
-Delete a torrent.
-
-```ruby
-Amplitude.remove(42)
-Amplitude.remove([42, 43])
-```
-
-By default, datas are not deleted. If you want to:
 
 ```ruby
-Amplitude.remove(42, true)
+Amplitude.remove(id)
 ```
 
-### Others
+By default, local data are not deleted. If you want that simply add a `true` flag to the `remove` operation:
 
-Others methods are available. Read amplitude.rb, it's pretty simple!
+```ruby
+Amplitude.remove(id, true)
+```
+
+### Starting or stopping a torrent
+
+```ruby
+Amplitude.start(id)
+Amplitude.start_now(id)
+Amplitude.stop(id)
+```
+
+### Setting properties using mutators
+
+
+```ruby
+Amplitude.set('uploadLimit', 3600)
+```
+
+Mutators properties are available in [spec](https://trac.transmissionbt.com/browser/trunk/extras/rpc-spec.txt#L96).
+
+### Reading properties using accessors
+
+
+```ruby
+Amplitude.get('uploadLimit')
+```
+
+Accessors properties are available in [spec](https://trac.transmissionbt.com/browser/trunk/extras/rpc-spec.txt#L150).
+
+### Executing a torrent verification
+
+```ruby
+Amplitude.verify(id)
+```
+
+### Asking tracker for more peer
+
+```ruby
+Amplitude.reannounce(id)
+```
+
+## Development & Contribution
+
+Test cases can be run with :
+
+```bash
+$ bundle exec rake
+```
+
+* If you’re creating a small fix or patch to an existing feature, just a simple test will do.
+* Please follow this [Ruby style-guide](https://github.com/bbatsov/ruby-style-guide) when modifying code.
+* Contributions will not be (of course) accepted without tests.
+
+
