@@ -1,6 +1,7 @@
 # amplitude
 Transmission RPC API Ruby Bindings
 
+[![Gem Version](https://badge.fury.io/rb/amplitude.svg)](http://badge.fury.io/rb/amplitude)
 [![Build Status](https://travis-ci.org/cloverio/amplitude.svg)](https://travis-ci.org/cloverio/amplitude)
 [![Code Climate](https://codeclimate.com/github/cloverio/amplitude.png)](https://codeclimate.com/github/cloverio/amplitude)
 [![Coverage](https://codeclimate.com/github/cloverio/amplitude/coverage.png)](https://codeclimate.com/github/cloverio/amplitude)
